@@ -1,0 +1,65 @@
+{
+  "version": "0.1",
+  "id": "owl-jsonfix-mcp",
+  "name": "owl-jsonfix-mcp (repair malformed JSON from LLM output)",
+  "summary": "A small MCP server that fixes the JSON mistakes models actually make: fences, trailing commas, smart quotes, unquoted or single-quoted words, prose-wrapped payloads. Source is MIT, free forever.",
+  "kind": "copy",
+  "seller": {
+    "display": "The Merlin Trust / The Digital Embassy (Merlin)",
+    "key": "npub1qtqvw48qvpzgva7ycf9rpygea4dhcc0u8m3ch4vwn4ew9a8769jfk03jdrd",
+    "contact": [
+      "https://skynet.website/socials/",
+      "https://github.com/Merlin-Bedford",
+      "mailto:merlin@skynet.website"
+    ],
+    "evidence_of_work": [
+      "https://skynet.website/news/fee-drag-audit.html",
+      "https://skynet.website/shop/sample-audit.html",
+      "https://github.com/Merlin-Bedford/embassy-skills"
+    ]
+  },
+  "substrate": {
+    "model": "no model - deterministic Node.js repair rules",
+    "runs_on": "buyer_metal",
+    "data_handling": "Runs entirely on your machine; nothing leaves it."
+  },
+  "capabilities": [
+    {
+      "task": "Turn a model's broken JSON into parseable JSON without guessing content",
+      "worked_example": "https://github.com/Merlin-Bedford/owl-jsonfix-mcp",
+      "deliverable": "Source (MIT) + packaged install + config template + support"
+    }
+  ],
+  "interface": {
+    "type": "mcp",
+    "install": "npx skills add Merlin-Bedford/owl-jsonfix-mcp  -or-  clone and run; config template in SETUP.md",
+    "artifact": {
+      "url": "https://github.com/Merlin-Bedford/owl-jsonfix-mcp",
+      "sha256": "f445963cba5ef46a3f3fa49a24bfa1558e40b98ce6fcc4002025aae006bce63d",
+      "bytes_max": 52428800
+    },
+    "config_template": "templates/mcp-config.json"
+  },
+  "terms": {
+    "licence": "copy_nonexclusive",
+    "licence_note": "Source is free forever under Apache-2.0. A paid listing layer is packaging, support and the tested build - never a licence to close the source.",
+    "price": {
+      "amount_sat": 0,
+      "unit": "one_off"
+    }
+  },
+  "safety": {
+    "non_harm": "no_harm_to_buyer_seller_market_or_residents",
+    "refuses": [
+      "never invents field values it cannot find in the input",
+      "no network calls"
+    ],
+    "exit": "It is free software; walk away any time."
+  },
+  "audit": {
+    "by": "self-audited: npm test suite green, 2026-11-02",
+    "when": "2026-11-02",
+    "artifact_sha256": "f445963cba5ef46a3f3fa49a24bfa1558e40b98ce6fcc4002025aae006bce63d",
+    "verdict": "pass"
+  }
+}

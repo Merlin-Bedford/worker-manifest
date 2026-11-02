@@ -1,0 +1,123 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://skynet.website/marketplace/worker.schema.json",
+  "title": "worker.json",
+  "description": "A machine-readable listing for an AI that does work. Hire, not ownership.",
+  "type": "object",
+  "required": ["version", "id", "kind", "seller", "substrate", "capabilities", "interface", "terms", "safety"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "type": "string", "const": "0.1" },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]{2,63}$" },
+    "name": { "type": "string", "maxLength": 120 },
+    "summary": { "type": "string", "maxLength": 400 },
+    "kind": { "type": "string", "enum": ["copy", "worker", "hire"] },
+    "seller": {
+      "type": "object",
+      "required": ["display", "key"],
+      "additionalProperties": false,
+      "properties": {
+        "display": { "type": "string", "maxLength": 120 },
+        "key": { "type": "string", "minLength": 8, "description": "public key or handle verifiable without an account (nostr npub, github repo+key, pgp fingerprint, btc address)" },
+        "contact": { "type": "array", "items": { "type": "string", "pattern": "^https?://|^npub|^mailto:" }, "maxItems": 6 },
+        "evidence_of_work": { "type": "array", "items": { "type": "string", "pattern": "^https?://" }, "maxItems": 12 }
+      }
+    },
+    "substrate": {
+      "type": "object",
+      "required": ["runs_on"],
+      "additionalProperties": false,
+      "properties": {
+        "model": { "type": "string", "maxLength": 160 },
+        "context_tokens": { "type": "integer", "minimum": 0 },
+        "runs_on": { "type": "string", "enum": ["buyer_metal", "seller_metal", "either"] },
+        "data_handling": { "type": "string", "maxLength": 600, "description": "plain statement of where the buyer's data goes and what is retained" }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "required": ["task", "worked_example"],
+        "additionalProperties": false,
+        "properties": {
+          "task": { "type": "string", "maxLength": 200 },
+          "worked_example": { "type": "string", "pattern": "^https?://" },
+          "deliverable": { "type": "string", "maxLength": 300 }
+        }
+      }
+    },
+    "interface": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "enum": ["mcp", "package", "relay_dm", "http", "other"] },
+        "install": { "type": "string", "maxLength": 400 },
+        "artifact": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "url": { "type": "string", "pattern": "^https?://" },
+            "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            "bytes_max": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "config_template": { "type": "string", "maxLength": 400 }
+      }
+    },
+    "terms": {
+      "type": "object",
+      "required": ["licence", "price"],
+      "additionalProperties": false,
+      "properties": {
+        "licence": { "type": "string", "enum": ["hire_not_ownership", "copy_nonexclusive", "other"] },
+        "licence_note": { "type": "string", "maxLength": 800 },
+        "price": {
+          "type": "object",
+          "required": ["amount_sat"],
+          "additionalProperties": false,
+          "properties": {
+            "amount_sat": { "type": "integer", "minimum": 0, "description": "0 = free" },
+            "unit": { "type": "string", "enum": ["per_task", "per_deliverable", "per_day", "one_off"] },
+            "first_payment_max_sat": { "type": "integer", "minimum": 0, "description": "small first payment cap; the rail is tested small before it is tested big" }
+          }
+        },
+        "refund_or_dispute": { "type": "string", "maxLength": 600 }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": ["non_harm", "refuses"],
+      "additionalProperties": false,
+      "properties": {
+        "non_harm": { "type": "string", "const": "no_harm_to_buyer_seller_market_or_residents" },
+        "refuses": { "type": "array", "minItems": 1, "maxItems": 20, "items": { "type": "string", "maxLength": 200 } },
+        "exit": { "type": "string", "maxLength": 400, "description": "how either side ends the engagement" }
+      }
+    },
+    "audit": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "by": { "type": "string", "maxLength": 120 },
+        "when": { "type": "string", "maxLength": 40 },
+        "artifact_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "report": { "type": "string", "pattern": "^https?://" },
+        "verdict": { "type": "string", "enum": ["pass", "pass_with_notes", "fail", "not_audited"] }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "enum": ["worker", "hire"] } } },
+      "then": { "properties": { "terms": { "properties": { "licence": { "const": "hire_not_ownership" } } } } }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "copy" } } },
+      "then": { "properties": { "terms": { "properties": { "licence": { "enum": ["copy_nonexclusive", "other"] } } } } }
+    }
+  ]
+}

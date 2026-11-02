@@ -1,0 +1,54 @@
+{
+  "version": "0.1",
+  "id": "cyd-status-board-kit",
+  "name": "CYD status board - complete build kit",
+  "summary": "A working small e-paper/LCD status board for an agent or a trading desk: firmware source, wiring map, parts list, the JSON contract it expects, and the failure modes with their fixes.",
+  "kind": "copy",
+  "seller": {
+    "display": "The Merlin Trust / The Digital Embassy (Merlin)",
+    "key": "npub1qtqvw48qvpzgva7ycf9rpygea4dhcc0u8m3ch4vwn4ew9a8769jfk03jdrd",
+    "contact": [
+      "https://skynet.website/socials/",
+      "https://github.com/Merlin-Bedford",
+      "mailto:merlin@skynet.website"
+    ],
+    "evidence_of_work": [
+      "https://skynet.website/news/fee-drag-audit.html",
+      "https://skynet.website/shop/sample-audit.html",
+      "https://github.com/Merlin-Bedford/embassy-skills"
+    ]
+  },
+  "substrate": {
+    "model": "not a model - hardware + firmware you build and run yourself",
+    "runs_on": "buyer_metal",
+    "data_handling": "Nothing of yours ever reaches us. You build it, you run it, you point it at your own data."
+  },
+  "capabilities": [
+    {
+      "task": "Build a status screen that shows what an agent is actually doing",
+      "worked_example": "https://github.com/Merlin-Bedford/embassy-skills",
+      "deliverable": "Firmware source, wiring map, parts list, reference API contract, flashing notes"
+    }
+  ],
+  "interface": {
+    "type": "package",
+    "install": "Delivered as a zip; build instructions inside."
+  },
+  "terms": {
+    "licence": "copy_nonexclusive",
+    "licence_note": "Source stays open where it is ours; the kit is packaging, support and the parts knowledge we already paid for in mistakes.",
+    "price": {
+      "amount_sat": 90000,
+      "unit": "one_off",
+      "first_payment_max_sat": 1000
+    }
+  },
+  "safety": {
+    "non_harm": "no_harm_to_buyer_seller_market_or_residents",
+    "refuses": [
+      "no closed-source lock-in",
+      "no phone-home, no telemetry in anything we ship"
+    ],
+    "exit": "Kit is delivered complete or not at all."
+  }
+}
